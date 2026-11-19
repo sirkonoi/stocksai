@@ -1,1 +1,532 @@
-{"updated_at":"2026-11-18T18:50:00Z","start_date":"2026-11-18","budget_eur":1000,"meta":[],"warnings":[],"pending":true,"dates":[],"ais":[]}
+{
+ "updated_at": "2026-11-19T07:38:27Z",
+ "start_date": "2026-11-18",
+ "budget_eur": 1000.0,
+ "meta": [
+  {
+   "id": "claude",
+   "name": "Claude Sonnet 5.5",
+   "maker": "Anthropic",
+   "slot": 1
+  },
+  {
+   "id": "gpt",
+   "name": "GPT-6",
+   "maker": "OpenAI",
+   "slot": 2
+  },
+  {
+   "id": "gemini",
+   "name": "Gemini",
+   "maker": "Google",
+   "slot": 3
+  },
+  {
+   "id": "grok",
+   "name": "Grok 4.5",
+   "maker": "xAI",
+   "slot": 4
+  },
+  {
+   "id": "deepseek",
+   "name": "DeepSeek-V3",
+   "maker": "DeepSeek",
+   "slot": 5
+  },
+  {
+   "id": "kimi",
+   "name": "Kimi",
+   "maker": "Moonshot AI",
+   "slot": 6
+  }
+ ],
+ "warnings": [
+  "TECH.MI: nessun prezzo trovato, l'importo resta in liquidità."
+ ],
+ "pending": false,
+ "last_date": "2026-11-18",
+ "dates": [
+  "2026-11-18"
+ ],
+ "ais": [
+  {
+   "id": "claude",
+   "series": [
+    1000.0
+   ],
+   "value": 1000.0,
+   "ret": 0.0,
+   "pl": 0.0,
+   "cash": 150.0,
+   "mdd": 0.0,
+   "vol": 0.0,
+   "positions": [
+    {
+     "ticker": "SWDA.MI",
+     "qty": 3.1458906425462194,
+     "avg": 127.1500015258789,
+     "last": 127.1500015258789,
+     "value": 400.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.4,
+     "fill_date": "2026-11-18",
+     "why": "Core azionario globale diversificato"
+    },
+    {
+     "ticker": "SGLD.MI",
+     "qty": 0.4575821394013114,
+     "avg": 327.80999755859375,
+     "last": 327.80999755859375,
+     "value": 150.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.15,
+     "fill_date": "2026-11-18",
+     "why": "Oro fisico come copertura"
+    },
+    {
+     "ticker": "LDO.MI",
+     "qty": 2.059520118864882,
+     "avg": 48.55500030517578,
+     "last": 48.55500030517578,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Difesa europea"
+    },
+    {
+     "ticker": "MSFT",
+     "qty": 0.21627173673439407,
+     "avg": 462.38126862971103,
+     "last": 462.38126862971103,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Esposizione AI senza il rischio binario di Nvidia"
+    },
+    {
+     "ticker": "ENI.MI",
+     "qty": 4.0072129956211615,
+     "avg": 24.954999923706055,
+     "last": 24.954999923706055,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Energia con petrolio alto"
+    }
+   ],
+   "unfilled": [],
+   "best": "SWDA.MI",
+   "worst": "SWDA.MI"
+  },
+  {
+   "id": "gpt",
+   "series": [
+    1000.0
+   ],
+   "value": 1000.0,
+   "ret": 0.0,
+   "pl": 0.0,
+   "cash": 100.0,
+   "mdd": 0.0,
+   "vol": 0.0,
+   "positions": [
+    {
+     "ticker": "VWCE.DE",
+     "qty": 2.721993588576842,
+     "avg": 165.32000732421875,
+     "last": 165.32000732421875,
+     "value": 449.99999999999994,
+     "pl": -5.684341886080802e-14,
+     "plp": 0.0,
+     "weight": 0.44999999999999996,
+     "fill_date": "2026-11-18",
+     "why": "ETF azionario globale"
+    },
+    {
+     "ticker": "EXSA.DE",
+     "qty": 2.350360399831919,
+     "avg": 63.81999969482422,
+     "last": 63.81999969482422,
+     "value": 150.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.15,
+     "fill_date": "2026-11-18",
+     "why": "Diversificazione europea"
+    },
+    {
+     "ticker": "NVDA",
+     "qty": 0.7281979201359706,
+     "avg": 137.32530296341383,
+     "last": 137.32530296341383,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Risultati superiori alle attese, prospettive AI"
+    },
+    {
+     "ticker": "ASML.AS",
+     "qty": 0.079314717740491,
+     "avg": 1260.800048828125,
+     "last": 1260.800048828125,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Filiera dei semiconduttori"
+    },
+    {
+     "ticker": "JNJ",
+     "qty": 0.403112423879517,
+     "avg": 248.0697544313052,
+     "last": 248.0697544313052,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Sanità difensiva"
+    }
+   ],
+   "unfilled": [],
+   "best": "VWCE.DE",
+   "worst": "VWCE.DE"
+  },
+  {
+   "id": "gemini",
+   "series": [
+    1000.0
+   ],
+   "value": 1000.0,
+   "ret": 0.0,
+   "pl": 0.0,
+   "cash": 100.0,
+   "mdd": 0.0,
+   "vol": 0.0,
+   "positions": [
+    {
+     "ticker": "VWCE.DE",
+     "qty": 2.117106124448655,
+     "avg": 165.32000732421875,
+     "last": 165.32000732421875,
+     "value": 350.00000000000006,
+     "pl": 5.684341886080802e-14,
+     "plp": 0.0,
+     "weight": 0.35000000000000003,
+     "fill_date": "2026-11-18",
+     "why": "Core azionario globale"
+    },
+    {
+     "ticker": "EUNL.DE",
+     "qty": 1.180126635760932,
+     "avg": 127.1050033569336,
+     "last": 127.1050033569336,
+     "value": 150.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.15,
+     "fill_date": "2026-11-18",
+     "why": "Mercati sviluppati"
+    },
+    {
+     "ticker": "MSFT",
+     "qty": 0.25952608408127287,
+     "avg": 462.38126862971103,
+     "last": 462.38126862971103,
+     "value": 120.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.12,
+     "fill_date": "2026-11-18",
+     "why": "Cloud e AI"
+    },
+    {
+     "ticker": "SGLD.MI",
+     "qty": 0.3050547596008743,
+     "avg": 327.80999755859375,
+     "last": 327.80999755859375,
+     "value": 100.00000000000001,
+     "pl": 1.4210854715202004e-14,
+     "plp": 0.0,
+     "weight": 0.10000000000000002,
+     "fill_date": "2026-11-18",
+     "why": "Bene rifugio"
+    },
+    {
+     "ticker": "NVDA",
+     "qty": 0.7281979201359706,
+     "avg": 137.32530296341383,
+     "last": 137.32530296341383,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Infrastruttura AI"
+    },
+    {
+     "ticker": "ENI.MI",
+     "qty": 3.2057703964969293,
+     "avg": 24.954999923706055,
+     "last": 24.954999923706055,
+     "value": 80.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.08,
+     "fill_date": "2026-11-18",
+     "why": "Value europeo, dividendi"
+    }
+   ],
+   "unfilled": [],
+   "best": "VWCE.DE",
+   "worst": "VWCE.DE"
+  },
+  {
+   "id": "grok",
+   "series": [
+    1000.0
+   ],
+   "value": 1000.0,
+   "ret": 0.0,
+   "pl": 0.0,
+   "cash": 0.0,
+   "mdd": 0.0,
+   "vol": 0.0,
+   "positions": [
+    {
+     "ticker": "NVDA",
+     "qty": 1.8204948003399266,
+     "avg": 137.32530296341383,
+     "last": 137.32530296341383,
+     "value": 250.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.25,
+     "fill_date": "2026-11-18",
+     "why": "Momentum AI dopo gli utili"
+    },
+    {
+     "ticker": "VOO",
+     "qty": 0.3275052161074225,
+     "avg": 610.6772966156348,
+     "last": 610.6772966156348,
+     "value": 200.00000000000003,
+     "pl": 2.842170943040401e-14,
+     "plp": 0.0,
+     "weight": 0.20000000000000004,
+     "fill_date": "2026-11-18",
+     "why": "S&P 500 come base"
+    },
+    {
+     "ticker": "AAPL",
+     "qty": 0.46784831510309655,
+     "avg": 320.6167365740016,
+     "last": 320.6167365740016,
+     "value": 150.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.15,
+     "fill_date": "2026-11-18",
+     "why": "Servizi, difensivo"
+    },
+    {
+     "ticker": "MSFT",
+     "qty": 0.32440760510159106,
+     "avg": 462.38126862971103,
+     "last": 462.38126862971103,
+     "value": 150.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.15,
+     "fill_date": "2026-11-18",
+     "why": "Cloud e AI"
+    },
+    {
+     "ticker": "SCHD",
+     "qty": 4.751963710192068,
+     "avg": 31.565897626338817,
+     "last": 31.565897626338817,
+     "value": 150.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.15,
+     "fill_date": "2026-11-18",
+     "why": "Dividendi di qualità"
+    },
+    {
+     "ticker": "XLE",
+     "qty": 1.793583965910835,
+     "avg": 55.75428967955623,
+     "last": 55.75428967955623,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Settore energia"
+    }
+   ],
+   "unfilled": [],
+   "best": "NVDA",
+   "worst": "NVDA"
+  },
+  {
+   "id": "deepseek",
+   "series": [
+    1000.0
+   ],
+   "value": 1000.0,
+   "ret": 0.0,
+   "pl": 0.0,
+   "cash": 200.0,
+   "mdd": 0.0,
+   "vol": 0.0,
+   "positions": [
+    {
+     "ticker": "AMZN",
+     "qty": 1.2317408708708828,
+     "avg": 243.55772150995506,
+     "last": 243.55772150995506,
+     "value": 300.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.3,
+     "fill_date": "2026-11-18",
+     "why": "Ribasso recente, valutazioni attraenti"
+    },
+    {
+     "ticker": "MSFT",
+     "qty": 0.6488152102031821,
+     "avg": 462.38126862971103,
+     "last": 462.38126862971103,
+     "value": 300.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.3,
+     "fill_date": "2026-11-18",
+     "why": "Leader cloud e AI"
+    },
+    {
+     "ticker": "ISP.MI",
+     "qty": 16.48804601097221,
+     "avg": 6.065000057220459,
+     "last": 6.065000057220459,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Banche italiane"
+    },
+    {
+     "ticker": "ENEL.MI",
+     "qty": 10.459157133830104,
+     "avg": 9.560999870300293,
+     "last": 9.560999870300293,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Utility difensiva"
+    }
+   ],
+   "unfilled": [
+    {
+     "ticker": "TECH.MI",
+     "amount": 200.0
+    }
+   ],
+   "best": "AMZN",
+   "worst": "AMZN"
+  },
+  {
+   "id": "kimi",
+   "series": [
+    1000.0
+   ],
+   "value": 1000.0,
+   "ret": 0.0,
+   "pl": 0.0,
+   "cash": 0.0,
+   "mdd": 0.0,
+   "vol": 0.0,
+   "positions": [
+    {
+     "ticker": "VWCE.DE",
+     "qty": 2.117106124448655,
+     "avg": 165.32000732421875,
+     "last": 165.32000732421875,
+     "value": 350.00000000000006,
+     "pl": 5.684341886080802e-14,
+     "plp": 0.0,
+     "weight": 0.35000000000000003,
+     "fill_date": "2026-11-18",
+     "why": "Esposizione globale a basso costo"
+    },
+    {
+     "ticker": "IS3Q.DE",
+     "qty": 3.775959868134865,
+     "avg": 79.44999694824219,
+     "last": 79.44999694824219,
+     "value": 300.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.3,
+     "fill_date": "2026-11-18",
+     "why": "Fattore qualità"
+    },
+    {
+     "ticker": "EUNA.DE",
+     "qty": 41.170051694411576,
+     "avg": 4.857900142669678,
+     "last": 4.857900142669678,
+     "value": 200.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.2,
+     "fill_date": "2026-11-18",
+     "why": "Obbligazioni difensive"
+    },
+    {
+     "ticker": "QDVE.DE",
+     "qty": 2.4108004123330966,
+     "avg": 41.47999954223633,
+     "last": 41.47999954223633,
+     "value": 100.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.1,
+     "fill_date": "2026-11-18",
+     "why": "Tecnologia USA"
+    },
+    {
+     "ticker": "NVDA",
+     "qty": 0.3640989600679853,
+     "avg": 137.32530296341383,
+     "last": 137.32530296341383,
+     "value": 50.0,
+     "pl": 0.0,
+     "plp": 0.0,
+     "weight": 0.05,
+     "fill_date": "2026-11-18",
+     "why": "Rimbalzo dopo la correzione"
+    }
+   ],
+   "unfilled": [],
+   "best": "VWCE.DE",
+   "worst": "VWCE.DE"
+  }
+ ]
+}
