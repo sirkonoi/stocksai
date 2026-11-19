@@ -1,0 +1,74 @@
+{
+  "start_date": "2026-11-18",
+  "budget_eur": 1000,
+  "ais": [
+    {
+      "id": "claude", "name": "Claude Sonnet 5.5", "maker": "Anthropic", "slot": 1,
+      "orders": [
+        {"ticker": "SWDA.MI", "amount_eur": 400, "why": "Core azionario globale diversificato"},
+        {"ticker": "SGLD.MI", "amount_eur": 150, "why": "Oro fisico come copertura"},
+        {"ticker": "LDO.MI", "amount_eur": 100, "why": "Difesa europea"},
+        {"ticker": "MSFT", "amount_eur": 100, "why": "Esposizione AI senza il rischio binario di Nvidia"},
+        {"ticker": "ENI.MI", "amount_eur": 100, "why": "Energia con petrolio alto"}
+      ],
+      "cash_eur": 150
+    },
+    {
+      "id": "gpt", "name": "GPT-6", "maker": "OpenAI", "slot": 2,
+      "orders": [
+        {"ticker": "VWCE.DE", "amount_eur": 450, "why": "ETF azionario globale"},
+        {"ticker": "EXSA.DE", "amount_eur": 150, "why": "Diversificazione europea"},
+        {"ticker": "NVDA", "amount_eur": 100, "why": "Risultati superiori alle attese, prospettive AI"},
+        {"ticker": "ASML.AS", "amount_eur": 100, "why": "Filiera dei semiconduttori"},
+        {"ticker": "JNJ", "amount_eur": 100, "why": "Sanità difensiva"}
+      ],
+      "cash_eur": 100
+    },
+    {
+      "id": "gemini", "name": "Gemini", "maker": "Google", "slot": 3,
+      "orders": [
+        {"ticker": "VWCE.DE", "amount_eur": 350, "why": "Core azionario globale"},
+        {"ticker": "EUNL.DE", "amount_eur": 150, "why": "Mercati sviluppati"},
+        {"ticker": "MSFT", "amount_eur": 120, "why": "Cloud e AI"},
+        {"ticker": "NVDA", "amount_eur": 100, "why": "Infrastruttura AI"},
+        {"ticker": "SGLD.MI", "amount_eur": 100, "why": "Bene rifugio"},
+        {"ticker": "ENI.MI", "amount_eur": 80, "why": "Value europeo, dividendi"}
+      ],
+      "cash_eur": 100
+    },
+    {
+      "id": "grok", "name": "Grok 4.5", "maker": "xAI", "slot": 4,
+      "orders": [
+        {"ticker": "NVDA", "amount_eur": 250, "why": "Momentum AI dopo gli utili"},
+        {"ticker": "AAPL", "amount_eur": 150, "why": "Servizi, difensivo"},
+        {"ticker": "MSFT", "amount_eur": 150, "why": "Cloud e AI"},
+        {"ticker": "VOO", "amount_eur": 200, "why": "S&P 500 come base"},
+        {"ticker": "SCHD", "amount_eur": 150, "why": "Dividendi di qualità"},
+        {"ticker": "XLE", "amount_eur": 100, "why": "Settore energia"}
+      ],
+      "cash_eur": 0
+    },
+    {
+      "id": "deepseek", "name": "DeepSeek-V3", "maker": "DeepSeek", "slot": 5,
+      "orders": [
+        {"ticker": "AMZN", "amount_eur": 300, "why": "Ribasso recente, valutazioni attraenti"},
+        {"ticker": "MSFT", "amount_eur": 300, "why": "Leader cloud e AI"},
+        {"ticker": "TECH.MI", "amount_eur": 200, "why": "Beneficiario della guidance Nvidia"},
+        {"ticker": "ISP.MI", "amount_eur": 100, "why": "Banche italiane"},
+        {"ticker": "ENEL.MI", "amount_eur": 100, "why": "Utility difensiva"}
+      ],
+      "cash_eur": 0
+    },
+    {
+      "id": "kimi", "name": "Kimi", "maker": "Moonshot AI", "slot": 6,
+      "orders": [
+        {"ticker": "VWCE.DE", "amount_eur": 350, "why": "Esposizione globale a basso costo"},
+        {"ticker": "IS3Q.DE", "amount_eur": 300, "why": "Fattore qualità"},
+        {"ticker": "EUNA.DE", "amount_eur": 200, "why": "Obbligazioni difensive"},
+        {"ticker": "QDVE.DE", "amount_eur": 100, "why": "Tecnologia USA"},
+        {"ticker": "NVDA", "amount_eur": 50, "why": "Rimbalzo dopo la correzione"}
+      ],
+      "cash_eur": 0
+    }
+  ]
+}

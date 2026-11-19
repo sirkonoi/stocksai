@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arena Azionaria AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+<style>
+/* Layout: una colonna, classifica e grafico in alto, dettaglio per AI sotto, strumenti di input in fondo. */
+:root{
+  color-scheme:light;
+  --bg:#f4f6f8; --surface:#ffffff; --ink:#0f1720; --ink2:#4a5562; --muted:#7a8591; --line:#dde2e8; --grid:#e8ecf0;
+  --accent:#0b5fff; --good:#0a7d3c; --bad:#c2312b; --warn:#9a6a00;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300;
+  --display:"Fraunces",Georgia,serif; --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif; --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#0e1319; --surface:#161d26; --ink:#eef2f6; --ink2:#b8c2cd; --muted:#8793a0; --line:#2a3440; --grid:#222b35;
+    --accent:#5b93ff; --good:#3fbf74; --bad:#ef6b64; --warn:#e0a63a;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#0ca30c;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#0e1319; --surface:#161d26; --ink:#eef2f6; --ink2:#b8c2cd; --muted:#8793a0; --line:#2a3440; --grid:#222b35;
+  --accent:#5b93ff; --good:#3fbf74; --bad:#ef6b64; --warn:#e0a63a;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#0ca30c;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.5}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 56px;display:flex;flex-direction:column;gap:20px}
+h1{font-family:var(--display);font-weight:600;font-size:30px;line-height:1.15;margin:0;text-wrap:balance}
+h2{font-size:15px;font-weight:600;margin:0;letter-spacing:.01em}
+p{margin:0}
+.head{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end;justify-content:space-between}
+.head .sub{color:var(--ink2);max-width:62ch;margin-top:6px}
+.badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:4px 12px;font-size:13px;font-weight:500}
+.badge.demo{border-color:var(--warn);color:var(--warn)}
+.badge.live{border-color:var(--good);color:var(--good)}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:12px;min-width:0}
+.card-h{display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;align-items:baseline}
+.hint{color:var(--muted);font-size:13px}
+.scroll{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th{font-weight:500;color:var(--muted);font-size:12px;text-align:right;padding:6px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid var(--grid);text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+th:first-child,td:first-child{text-align:left}
+th.l,td.l{text-align:left}
+tbody tr:last-child td{border-bottom:0}
+tr.pick{cursor:pointer}
+tr.pick:hover td{background:var(--bg)}
+.num{font-family:var(--mono);font-size:13.5px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:8px;vertical-align:-1px}
+.ainame{font-weight:600}
+.maker{color:var(--muted);font-size:12px;margin-left:6px}
+.up{color:var(--good)}.down{color:var(--bad)}.flat{color:var(--ink2)}
+.legend{display:flex;flex-wrap:wrap;gap:6px 8px}
+.chip{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:999px;padding:4px 12px;font:inherit;font-size:13px;cursor:pointer}
+.chip[aria-pressed="false"]{opacity:.45}
+.chip[aria-pressed="true"].tab{border-color:var(--ink)}
+.chip:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,tr.pick:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.chart{position:relative}
+.chart svg{display:block;width:100%;height:auto;touch-action:pan-y}
+.chart text{fill:var(--muted);font-family:var(--body);font-size:11px}
+.tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-size:12.5px;box-shadow:0 4px 16px rgba(0,0,0,.14);min-width:170px;z-index:2}
+.tip .d{color:var(--muted);margin-bottom:4px}
+.tip .r{display:flex;justify-content:space-between;gap:14px;font-variant-numeric:tabular-nums}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.tile{border:1px solid var(--line);border-radius:8px;padding:10px 12px;display:flex;flex-direction:column;gap:2px}
+.tile .k{color:var(--muted);font-size:12px}
+.tile .v{font-family:var(--mono);font-size:19px;font-weight:500}
+.alloc{display:flex;gap:2px;height:14px;border-radius:4px;overflow:hidden}
+.alloc i{display:block;min-width:2px}
+.alloclegend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12.5px;color:var(--ink2)}
+.alloclegend b{font-weight:500;color:var(--ink)}
+.forms{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+form{display:flex;flex-direction:column;gap:10px}
+.row{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px}
+label{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--ink2)}
+input,select,textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:8px 10px;min-width:0;width:100%}
+textarea{font-family:var(--mono);font-size:13px;min-height:110px;resize:vertical}
+button.btn{font:inherit;font-weight:500;background:var(--accent);color:#fff;border:0;border-radius:6px;padding:9px 14px;cursor:pointer}
+button.btn.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button.btn.danger{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.btns{display:flex;flex-wrap:wrap;gap:8px}
+.msg{font-size:13px;min-height:18px}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--good)}
+.rules{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px 24px;color:var(--ink2);font-size:13.5px}
+.rules b{color:var(--ink);font-weight:600}
+.empty{color:var(--muted);padding:24px 0;text-align:center}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="head">
+    <div>
+      <h1>Arena Azionaria AI</h1>
+      <p class="sub">Sei AI hanno investito 1.000 € ciascuna il 18 novembre 2026. Gli ordini restano fermi: i prezzi si aggiornano ogni giorno di borsa e le statistiche si ricalcolano da sole.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:6px;align-items:flex-end">
+      <span id="mode" class="badge"></span>
+      <span id="asof" class="hint"></span>
+    </div>
+  </header>
+
+  <div id="warn" class="card" hidden></div>
+  <div id="pending" class="card" hidden><h2>In attesa della prima chiusura</h2><p class="hint">I prezzi del 18 novembre arrivano dopo la chiusura di Wall Street. La pagina si riempie alla prima esecuzione dell'aggiornamento automatico.</p></div>
+
+  <section class="card" id="sRank" aria-labelledby="h-rank" hidden>
+    <div class="card-h"><h2 id="h-rank">Classifica</h2><span class="hint">Tocca una riga per aprire il dettaglio</span></div>
+    <div class="scroll"><table id="board"></table></div>
+  </section>
+
+  <section class="card" id="sChart" aria-labelledby="h-chart" hidden>
+    <div class="card-h"><h2 id="h-chart">Valore del portafoglio nel tempo (€)</h2><span class="hint">Tocca i nomi per mostrare o nascondere una linea</span></div>
+    <div class="legend" id="legend"></div>
+    <div class="chart" id="chart"></div>
+  </section>
+
+  <section class="card" id="sDetail" aria-labelledby="h-detail" hidden>
+    <div class="card-h"><h2 id="h-detail">Dettaglio per AI</h2></div>
+    <div class="legend" id="tabs" role="group" aria-label="Scegli un'AI"></div>
+    <div id="detail" style="display:flex;flex-direction:column;gap:14px"></div>
+  </section>
+
+  <section class="card" aria-labelledby="h-rules">
+    <h2 id="h-rules">Regole e limiti</h2>
+    <div class="rules">
+      <p><b>Budget.</b> 1.000 € a testa, una sola volta. Gli ordini sono quelli del 18 novembre 2026 e non vengono più cambiati.</p>
+      <p><b>Ingresso.</b> Ogni ordine entra al prezzo di chiusura del giorno di partenza, uguale per tutte le AI.</p>
+      <p><b>Costi.</b> Nessuna commissione né tassa. Il rendimento include i dividendi reinvestiti.</p>
+      <p><b>Valute.</b> I titoli in dollari sono convertiti in euro con il cambio del giorno, quindi il rendimento include l'effetto cambio.</p>
+      <p><b>Dati.</b> Prezzi di chiusura da Yahoo Finance, gratuiti e non garantiti: se un titolo manca, l'importo resta in liquidità e compare un avviso in alto.</p>
+      <p><b>Gioco.</b> Denaro virtuale e nessun consiglio di investimento. Le AI hanno deciso con strumenti diversi: alcune con ricerca web, altre senza.</p>
+    </div>
+  </section>
+</div>
+
+<script>
+"use strict";
+const fE=new Intl.NumberFormat("it-IT",{style:"currency",currency:"EUR"});
+const fN=new Intl.NumberFormat("it-IT",{maximumFractionDigits:3});
+const eur=v=>fE.format(v);
+const pct=v=>(v>0?"+":v<0?"−":"")+Math.abs(v*100).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})+"%";
+const sgn=v=>(v>0?"+":v<0?"−":"")+fE.format(Math.abs(v));
+const cls=v=>v>0.00005?"up":v<-0.00005?"down":"flat";
+const arrow=v=>v>0.00005?"▲ ":v<-0.00005?"▼ ":"";
+const dLab=d=>new Date(d+"T00:00:00").toLocaleDateString("it-IT",{day:"numeric",month:"short"});
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const $=id=>document.getElementById(id);
+let D=null,A=[],vis=new Set(),sel=null;
+
+function niceTicks(min,max,n){
+  const span=(max-min)||1,raw=span/n,m=Math.pow(10,Math.floor(Math.log10(raw))),f=raw/m;
+  const step=(f<1.5?1:f<3?2:f<7?5:10)*m,lo=Math.floor(min/step)*step,hi=Math.ceil(max/step)*step,t=[];
+  for(let v=lo;v<=hi+1e-9;v+=step)t.push(Math.round(v*1e6)/1e6);
+  return t;
+}
+function drawChart(){
+  const box=$("chart"),dates=D.dates,n=dates.length,act=A.filter(a=>vis.has(a.id));
+  if(n<2){box.innerHTML='<p class="empty">Il grafico compare dal secondo giorno di borsa.</p>';return}
+  if(!act.length){box.innerHTML='<p class="empty">Nessuna linea selezionata.</p>';return}
+  const W=800,H=320,ml=58,mr=20,mt=14,mb=28,iw=W-ml-mr,ih=H-mt-mb;
+  let lo=D.budget_eur,hi=D.budget_eur;act.forEach(a=>a.series.forEach(v=>{lo=Math.min(lo,v);hi=Math.max(hi,v)}));
+  const tk=niceTicks(lo,hi,4),y0=tk[0],y1=tk[tk.length-1];
+  const X=i=>ml+iw*i/(n-1),Y=v=>mt+ih*(1-(v-y0)/((y1-y0)||1));
+  let g="";
+  tk.forEach(v=>{g+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(v)}" y2="${Y(v)}" stroke="var(--grid)"/><text x="${ml-8}" y="${Y(v)+4}" text-anchor="end">${v.toLocaleString("it-IT")}</text>`});
+  const nx=Math.min(6,n),xs=[];for(let k=0;k<nx;k++)xs.push(Math.round(k*(n-1)/(nx-1||1)));
+  [...new Set(xs)].forEach(i=>{g+=`<text x="${X(i)}" y="${H-8}" text-anchor="${i===0?"start":i===n-1?"end":"middle"}">${dLab(dates[i])}</text>`});
+  g+=`<line x1="${ml}" x2="${W-mr}" y1="${Y(D.budget_eur)}" y2="${Y(D.budget_eur)}" stroke="var(--muted)" stroke-dasharray="4 4"/>`;
+  g+=`<text x="${W-mr}" y="${Y(D.budget_eur)-5}" text-anchor="end">1.000 € iniziali</text>`;
+  act.forEach(a=>{
+    g+=`<polyline fill="none" stroke="${a.c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" points="${a.series.map((v,i)=>X(i).toFixed(1)+","+Y(v).toFixed(1)).join(" ")}"/>`;
+    g+=`<circle cx="${X(n-1)}" cy="${Y(a.series[n-1])}" r="4.5" fill="${a.c}" stroke="var(--surface)" stroke-width="2"/>`;
+  });
+  box.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Andamento del valore dei portafogli">${g}<g id="hov"></g><rect id="hit" x="${ml}" y="${mt}" width="${iw}" height="${ih}" fill="transparent"/></svg><div class="tip" id="tip" hidden></div>`;
+  const svg=box.querySelector("svg"),hit=box.querySelector("#hit"),hov=box.querySelector("#hov"),tip=box.querySelector("#tip");
+  function move(e){
+    const rc=svg.getBoundingClientRect(),px=(e.clientX-rc.left)/rc.width*W;
+    const i=Math.max(0,Math.min(n-1,Math.round((px-ml)/iw*(n-1))));
+    let h=`<line x1="${X(i)}" x2="${X(i)}" y1="${mt}" y2="${mt+ih}" stroke="var(--muted)"/>`;
+    const rows=act.map(a=>({a,v:a.series[i]})).sort((p,q)=>q.v-p.v);
+    rows.forEach(o=>{h+=`<circle cx="${X(i)}" cy="${Y(o.v)}" r="4" fill="${o.a.c}" stroke="var(--surface)" stroke-width="2"/>`});
+    hov.innerHTML=h;tip.hidden=false;
+    tip.innerHTML=`<div class="d">${dLab(dates[i])}</div>`+rows.map(o=>`<div class="r"><span><span class="dot" style="background:${o.a.c}"></span>${esc(o.a.name)}</span><b>${eur(o.v)}</b></div>`).join("");
+    const tx=(X(i)/W)*rc.width;
+    tip.style.left=(tx>rc.width/2?tx-tip.offsetWidth-12:tx+12)+"px";tip.style.top="8px";
+  }
+  hit.addEventListener("pointermove",move);hit.addEventListener("pointerdown",move);
+  hit.addEventListener("pointerleave",()=>{hov.innerHTML="";tip.hidden=true});
+}
+
+function render(){
+  const order=A.slice().sort((a,b)=>b.value-a.value);
+  let h=`<thead><tr><th>AI</th><th>Valore</th><th>Rendimento</th><th>Utile/perdita</th><th>Perdita max</th><th>Liquidità</th></tr></thead><tbody>`;
+  order.forEach((a,i)=>{h+=`<tr class="pick" tabindex="0" data-ai="${a.id}"><td><span class="num" style="color:var(--muted);margin-right:8px">${i+1}</span><span class="dot" style="background:${a.c}"></span><span class="ainame">${esc(a.name)}</span><span class="maker">${esc(a.maker)}</span></td><td class="num">${eur(a.value)}</td><td class="num ${cls(a.ret)}">${arrow(a.ret)}${pct(a.ret)}</td><td class="num ${cls(a.pl)}">${sgn(a.pl)}</td><td class="num ${cls(a.mdd)}">${a.mdd<-0.00005?pct(a.mdd):"0,00%"}</td><td class="num">${eur(a.cash)}</td></tr>`});
+  $("board").innerHTML=h+"</tbody>";
+  document.querySelectorAll("#board tr.pick").forEach(tr=>{
+    const go=()=>{sel=tr.dataset.ai;render();$("h-detail").scrollIntoView({behavior:"smooth",block:"start"})};
+    tr.addEventListener("click",go);tr.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();go()}});
+  });
+  const lg=$("legend");
+  lg.innerHTML=A.map(a=>`<button class="chip" type="button" data-ai="${a.id}" aria-pressed="${vis.has(a.id)}"><span class="dot" style="background:${a.c};margin:0"></span>${esc(a.name)}</button>`).join("");
+  lg.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{const k=b.dataset.ai;vis.has(k)?vis.delete(k):vis.add(k);render()}));
+  drawChart();
+  const tb=$("tabs");
+  tb.innerHTML=A.map(a=>`<button class="chip tab" type="button" data-ai="${a.id}" aria-pressed="${a.id===sel}"><span class="dot" style="background:${a.c};margin:0"></span>${esc(a.name)}</button>`).join("");
+  tb.querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{sel=b.dataset.ai;render()}));
+  renderDetail(A.find(a=>a.id===sel));
+}
+function renderDetail(s){
+  const tile=(k,v,c)=>`<div class="tile"><span class="k">${k}</span><span class="v ${c||""}">${v}</span></div>`;
+  const winners=s.positions.filter(p=>p.pl>0).length;
+  let h=`<div class="tiles">`+
+    tile("Valore totale",eur(s.value))+tile("Rendimento",arrow(s.ret)+pct(s.ret),cls(s.ret))+tile("Liquidità",eur(s.cash))+
+    tile("Perdita massima dal picco",s.mdd<-0.00005?pct(s.mdd):"0,00%",s.mdd<-0.00005?"down":"flat")+
+    tile("Oscillazione giornaliera",(s.vol*100).toLocaleString("it-IT",{minimumFractionDigits:2,maximumFractionDigits:2})+"%")+
+    tile("Posizioni in utile",s.positions.length?winners+" su "+s.positions.length:"–")+
+    tile("Miglior titolo",s.best?esc(s.best):"–")+tile("Peggior titolo",s.worst?esc(s.worst):"–")+`</div>`;
+  const op=[.95,.75,.58,.45,.34,.26],tot=s.value||1;
+  h+=`<div><div class="hint" style="margin-bottom:6px">Composizione del portafoglio</div><div class="alloc" role="img" aria-label="Composizione">`+
+    s.positions.map((x,i)=>`<i title="${esc(x.ticker)} ${(x.weight*100).toFixed(1)}%" style="background:${s.c};opacity:${op[Math.min(i,op.length-1)]};width:${x.weight*100}%"></i>`).join("")+
+    `<i title="Liquidità" style="background:var(--line);width:${s.cash/tot*100}%"></i></div><div class="alloclegend" style="margin-top:6px">`+
+    s.positions.map(x=>`<span><b>${esc(x.ticker)}</b> ${(x.weight*100).toLocaleString("it-IT",{maximumFractionDigits:1})}%</span>`).join("")+
+    `<span><b>Liquidità</b> ${(s.cash/tot*100).toLocaleString("it-IT",{maximumFractionDigits:1})}%</span></div></div>`;
+  if(s.positions.length)h+=`<div class="scroll"><table><thead><tr><th>Titolo</th><th>Quantità</th><th>Ingresso</th><th>Ultimo prezzo</th><th>Valore</th><th>Utile/perdita</th><th class="l">Motivo dell'AI</th></tr></thead><tbody>`+
+    s.positions.map(x=>`<tr><td class="l"><b>${esc(x.ticker)}</b></td><td class="num">${fN.format(x.qty)}</td><td class="num">${eur(x.avg)}</td><td class="num">${eur(x.last)}</td><td class="num">${eur(x.value)}</td><td class="num ${cls(x.pl)}">${arrow(x.pl)}${sgn(x.pl)} (${pct(x.plp)})</td><td class="l" style="white-space:normal;min-width:200px;color:var(--ink2)">${esc(x.why)}</td></tr>`).join("")+`</tbody></table></div>`;
+  if(s.unfilled.length)h+=`<p class="hint">Non eseguiti per mancanza di prezzi, restano in liquidità: ${s.unfilled.map(u=>esc(u.ticker)+" ("+eur(u.amount)+")").join(", ")}.</p>`;
+  $("detail").innerHTML=h;
+}
+
+fetch("data/state.json?"+Date.now()).then(r=>{if(!r.ok)throw new Error(r.status);return r.json()}).then(d=>{
+  D=d;
+  const slot=m=>"var(--s"+m.slot+")";
+  if(d.warnings&&d.warnings.length){const w=$("warn");w.hidden=false;w.innerHTML="<h2>Avvisi sui dati</h2>"+d.warnings.map(x=>`<p class="hint">${esc(x)}</p>`).join("")}
+  if(d.pending){$("pending").hidden=false;$("mode").className="badge demo";$("mode").textContent="In attesa dei prezzi";return}
+  const byId={};d.meta.forEach(m=>byId[m.id]=m);
+  A=d.ais.map(a=>({...a,name:byId[a.id].name,maker:byId[a.id].maker,c:slot(byId[a.id])}));
+  vis=new Set(A.map(a=>a.id));sel=A.slice().sort((a,b)=>b.value-a.value)[0].id;
+  $("mode").className="badge live";$("mode").textContent="Dati reali";
+  $("asof").textContent="Ultima chiusura: "+new Date(d.last_date+"T00:00:00").toLocaleDateString("it-IT",{day:"numeric",month:"long",year:"numeric"});
+  ["sRank","sChart","sDetail"].forEach(i=>$(i).hidden=false);
+  render();
+}).catch(()=>{$("pending").hidden=false;$("pending").innerHTML="<h2>Dati non disponibili</h2><p class='hint'>Non riesco a leggere data/state.json. Esegui l'aggiornamento dalla scheda Actions del repository.</p>"});
+</script>
+</body>
+</html>
