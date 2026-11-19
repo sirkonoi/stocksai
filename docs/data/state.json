@@ -1,5 +1,5 @@
 {
- "updated_at": "2026-11-19T07:38:27Z",
+ "updated_at": "2026-11-19T07:53:41Z",
  "start_date": "2026-11-18",
  "budget_eur": 1000.0,
  "meta": [
@@ -40,9 +40,7 @@
    "slot": 6
   }
  ],
- "warnings": [
-  "TECH.MI: nessun prezzo trovato, l'importo resta in liquidità."
- ],
+ "warnings": [],
  "pending": false,
  "last_date": "2026-11-18",
  "dates": [
@@ -389,7 +387,7 @@
    "value": 1000.0,
    "ret": 0.0,
    "pl": 0.0,
-   "cash": 200.0,
+   "cash": 0.0,
    "mdd": 0.0,
    "vol": 0.0,
    "positions": [
@@ -418,6 +416,18 @@
      "why": "Leader cloud e AI"
     },
     {
+     "ticker": "STMMI.MI",
+     "qty": 4.937052784168827,
+     "avg": 40.5099983215332,
+     "last": 40.5099983215332,
+     "value": 200.00000000000003,
+     "pl": 2.842170943040401e-14,
+     "plp": 0.0,
+     "weight": 0.20000000000000004,
+     "fill_date": "2026-11-18",
+     "why": "Semiconduttori, correlato AI"
+    },
+    {
      "ticker": "ISP.MI",
      "qty": 16.48804601097221,
      "avg": 6.065000057220459,
@@ -442,12 +452,7 @@
      "why": "Utility difensiva"
     }
    ],
-   "unfilled": [
-    {
-     "ticker": "TECH.MI",
-     "amount": 200.0
-    }
-   ],
+   "unfilled": [],
    "best": "AMZN",
    "worst": "AMZN"
   },
