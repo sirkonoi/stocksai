@@ -53,7 +53,7 @@
       "orders": [
         {"ticker": "AMZN", "amount_eur": 300, "why": "Ribasso recente, valutazioni attraenti"},
         {"ticker": "MSFT", "amount_eur": 300, "why": "Leader cloud e AI"},
-        {"ticker": "TECH.MI", "amount_eur": 200, "why": "Beneficiario della guidance Nvidia"},
+        {"ticker": "STMMI.MI", "importo_eur": 200, "motivo": "Semiconduttori, correlato AI, +1,84% il 18 nov"},
         {"ticker": "ISP.MI", "amount_eur": 100, "why": "Banche italiane"},
         {"ticker": "ENEL.MI", "amount_eur": 100, "why": "Utility difensiva"}
       ],
