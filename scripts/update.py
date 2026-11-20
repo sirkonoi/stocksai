@@ -17,6 +17,7 @@ import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -39,15 +40,27 @@ def currency_of(ticker):
 
 
 def download_close(tickers, start):
-    """DataFrame di chiusure adjusted, una colonna per ticker (più il cambio), indice = data."""
+    """DataFrame di chiusure adjusted, una colonna per ticker (più il cambio), indice = data di borsa locale.
+
+    Un ticker alla volta: scaricarli insieme obbliga Yahoo ad allineare mercati con fusi orari diversi
+    e può spostare o perdere le righe dei titoli europei.
+    """
     import yfinance as yf
-    df = yf.download(sorted(set(tickers) | {FX}), start=start, auto_adjust=True,
-                     progress=False, group_by="column", threads=True)
-    close = df["Close"]
-    if isinstance(close, pd.Series):
-        close = close.to_frame()
-    close.index = pd.to_datetime(close.index).tz_localize(None).normalize()
-    return close
+    cols = {}
+    for t in sorted(set(tickers) | {FX}):
+        try:
+            h = yf.Ticker(t).history(start=start, auto_adjust=True, actions=False)
+        except Exception as e:
+            print(f"Download fallito per {t}: {e}", file=sys.stderr)
+            continue
+        if h is None or h.empty or "Close" not in h:
+            continue
+        ser = h["Close"].copy()
+        ser.index = pd.to_datetime(ser.index.date)  # data locale della borsa, senza fuso orario
+        cols[t] = ser[~ser.index.duplicated(keep="last")]
+    if not cols:
+        raise RuntimeError("nessun prezzo scaricato")
+    return pd.DataFrame(cols).sort_index()
 
 
 def max_drawdown(values):
@@ -95,6 +108,11 @@ def build_state(cfg, close, currencies, now):
         else:
             warnings.append(f"{t}: valuta {cur} non gestita, l'importo resta in liquidità.")
     idx = close.index
+    last_real = {t: close[t].last_valid_index() for t in prices}
+    for t, d in sorted(last_real.items()):
+        gap = int(np.busday_count(d.date(), idx[-1].date()))
+        if gap >= 2:
+            warnings.append(f"{t}: ultimo prezzo reale del {d.date()}, in ritardo di {gap} giorni di borsa sugli altri titoli.")
     ais_out = []
     for ai in cfg["ais"]:
         legs = []
@@ -130,14 +148,18 @@ def build_state(cfg, close, currencies, now):
                 continue
             last = float(g["p"].iloc[-1])
             val = g["qty"] * last
-            positions.append({"ticker": g["t"], "qty": g["qty"], "avg": g["p0"], "last": last, "value": val,
-                              "pl": val - g["amount"], "plp": last / g["p0"] - 1, "weight": val / value,
-                              "fill_date": str(g["fill_date"].date()), "why": g["why"]})
+            positions.append({"ticker": g["t"], "qty": round(g["qty"], 6), "avg": round(g["p0"], 4),
+                              "last": round(last, 4), "value": round(val, 4),
+                              "pl": round(val - g["amount"], 4), "plp": round(last / g["p0"] - 1, 6),
+                              "weight": round(val / value, 6),
+                              "fill_date": str(g["fill_date"].date()), "price_date": str(last_real[g["t"]].date()),
+                              "why": g["why"]})
         positions.sort(key=lambda x: -x["value"])
         unfilled = [{"ticker": g["t"], "amount": g["amount"]} for g in legs if not g["filled"]]
         ais_out.append({
-            "id": ai["id"], "series": [round(v, 4) for v in vals], "value": value, "ret": value / budget - 1,
-            "pl": value - budget, "cash": idle, "mdd": max_drawdown(vals), "vol": vol, "positions": positions,
+            "id": ai["id"], "series": [round(v, 4) for v in vals], "value": round(value, 4), "ret": round(value / budget - 1, 6),
+            "pl": round(value - budget, 4), "cash": round(idle, 4), "mdd": round(max_drawdown(vals), 6), "vol": round(vol, 6),
+            "positions": positions,
             "unfilled": unfilled,
             "best": max(positions, key=lambda x: x["plp"])["ticker"] if positions else None,
             "worst": min(positions, key=lambda x: x["plp"])["ticker"] if positions else None,
