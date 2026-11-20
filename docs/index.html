@@ -219,8 +219,8 @@ function renderDetail(s){
     `<i title="Liquidità" style="background:var(--line);width:${s.cash/tot*100}%"></i></div><div class="alloclegend" style="margin-top:6px">`+
     s.positions.map(x=>`<span><b>${esc(x.ticker)}</b> ${(x.weight*100).toLocaleString("it-IT",{maximumFractionDigits:1})}%</span>`).join("")+
     `<span><b>Liquidità</b> ${(s.cash/tot*100).toLocaleString("it-IT",{maximumFractionDigits:1})}%</span></div></div>`;
-  if(s.positions.length)h+=`<div class="scroll"><table><thead><tr><th>Titolo</th><th>Quantità</th><th>Ingresso</th><th>Ultimo prezzo</th><th>Valore</th><th>Utile/perdita</th><th class="l">Motivo dell'AI</th></tr></thead><tbody>`+
-    s.positions.map(x=>`<tr><td class="l"><b>${esc(x.ticker)}</b></td><td class="num">${fN.format(x.qty)}</td><td class="num">${eur(x.avg)}</td><td class="num">${eur(x.last)}</td><td class="num">${eur(x.value)}</td><td class="num ${cls(x.pl)}">${arrow(x.pl)}${sgn(x.pl)} (${pct(x.plp)})</td><td class="l" style="white-space:normal;min-width:200px;color:var(--ink2)">${esc(x.why)}</td></tr>`).join("")+`</tbody></table></div>`;
+  if(s.positions.length)h+=`<div class="scroll"><table><thead><tr><th>Titolo</th><th>Quantità</th><th>Ingresso</th><th>Ultimo prezzo</th><th>Prezzo del</th><th>Valore</th><th>Utile/perdita</th><th class="l">Motivo dell'AI</th></tr></thead><tbody>`+
+    s.positions.map(x=>`<tr><td class="l"><b>${esc(x.ticker)}</b></td><td class="num">${fN.format(x.qty)}</td><td class="num">${eur(x.avg)}</td><td class="num">${eur(x.last)}</td><td class="num">${x.price_date?dLab(x.price_date):"–"}</td><td class="num">${eur(x.value)}</td><td class="num ${cls(x.pl)}">${arrow(x.pl)}${sgn(x.pl)} (${pct(x.plp)})</td><td class="l" style="white-space:normal;min-width:200px;color:var(--ink2)">${esc(x.why)}</td></tr>`).join("")+`</tbody></table></div>`;
   if(s.unfilled.length)h+=`<p class="hint">Non eseguiti per mancanza di prezzi, restano in liquidità: ${s.unfilled.map(u=>esc(u.ticker)+" ("+eur(u.amount)+")").join(", ")}.</p>`;
   $("detail").innerHTML=h;
 }
